@@ -134,8 +134,8 @@ def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf"):
         # Add contours of mean velocity
         cs = plt.contourf(y_R, z_H, u, 20, cmap=plt.cm.coolwarm)
         cb = plt.colorbar(cs, shrink=1, extend='both', 
-                          orientation='horizontal', pad=0.12,
-                          ticks=np.round(np.linspace(0.44, 1.12, 10), decimals=2))
+                          orientation='horizontal', pad=0.12)
+                          #ticks=np.round(np.linspace(0.44, 1.12, 10), decimals=2))
         cb.set_label(r'$U/U_{\infty}$')
         plt.hold(True)
         # Make quiver plot of v and w velocities
