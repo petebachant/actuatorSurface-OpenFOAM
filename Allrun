@@ -10,7 +10,6 @@ runApplication snappyHexMesh -overwrite
 cp -rf 0.org 0
 
 runApplication topoSet
-runApplication extrudeMesh
 runApplication `getApplication`
 
 #runApplication uprime
