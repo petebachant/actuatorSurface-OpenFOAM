@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.x                                 |
+|  \\    /   O peration     | Version:  2.2.2                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -29,24 +29,57 @@ addLayers       false;
 // - to 'snap' the mesh boundary to the surface
 geometry
 {
-/*
     turbine
     {
         type searchableBox;
-        min (-0.5 -0.5 -0.5);
-        max (0.5 0.5 0.5);
+        min (-0.1 -0.5 -0.05);
+        max (0.1 0.5 0.05);
+    }
+/*
+    windTurbine1
+    {
+        type searchableBox;
+        min (581845 4785805 1061);
+        max (581855 4785815 1071);
+    }
+/*
+    windTurbine2
+    {
+        type searchableBox;
+        min (581740 4785658 1065);
+        max (581771 4785671 1079);
+    }
+
+    terrain.stl
+    {
+        type triSurfaceMesh;
+        name terrain;
+
+        //tolerance   1e-5;   // optional:non-default tolerance on intersections
+        //maxTreeDepth 10;    // optional:depth of octree. Decrease only in case
+                              // of memory limitations.
+*/
+        // Per region the patchname. If not provided will be <name>_<region>.
+/*
+        regions
+        {
+            secondSolid
+            {
+                name mySecondPatch;
+            }
+        }
+*/
+//    }
+/*
+    sphere2
+    {
+        type searchableSphere;
+        centre  (1.5 1.5 1.5);
+        radius  1.03;
     }
 */
-
-    turbine
-    {
-        type searchableCylinder;
-        point1 (0 0 -0.5);
-        point2 (0 0 0.5);
-        radius 0.5;       
-    }
-
 };
+
 
 
 // Settings for the castellatedMesh generation.
@@ -115,6 +148,36 @@ castellatedMeshControls
 
     refinementSurfaces
     {
+/*
+        terrain
+        {
+            // Surface-wise min and max refinement level
+            level (2 2);
+
+            // Optional region-wise level specification
+/*
+            regions
+            {
+                windTurbine
+                {
+                    level (3 3);
+                }
+            }
+            //- Optional angle to detect small-large cell situation
+            //  perpendicular to the surface. Is the angle of face w.r.t.
+            //  the local surface normal. Use on flat(ish) surfaces only.
+            //  Otherwise leave out or set to negative number.
+            //perpendicularAngle 10;
+
+
+            //- Optional faceZone and (for closed surface) cellZone with
+            //  how to select the cells that are in the cellZone
+            //  (inside / outside / specified insidePoint)
+            //faceZone sphere;
+            //cellZone sphere;
+            //cellZoneInside inside;  //outside/insidePoint
+        }
+*/
     }
 
     resolveFeatureAngle 30;
@@ -140,6 +203,23 @@ castellatedMeshControls
             mode inside;
             levels ((1 1));
         }
+/*
+        windTurbine1
+        {
+            mode inside;
+            levels ((6 6));
+        }
+        windTurbine2
+        {
+            mode inside;
+            levels ((6 6));
+        }
+        //sphere.stl
+        //{
+        //    mode distance;
+        //    levels ((1.0 5) (2.0 3));
+        //}
+*/
     }
 
 
@@ -151,12 +231,13 @@ castellatedMeshControls
     // section reachable from the locationInMesh is kept.
     // NOTE: This point should never be on a face, always inside a cell, even
     // after refinement.
-    locationInMesh (0.3124 0 0);
+    locationInMesh (0.0231 0.5145 0.002478);
 
     // Whether any faceZones (as specified in the refinementSurfaces)
     // are only on the boundary of corresponding cellZones or also allow
     // free-standing zone faces. Not used if there are no faceZones.
     allowFreeStandingZoneFaces true;
+
 
     // Optional: do not remove cells likely to give snapping problems
     handleSnapProblems false;
@@ -221,6 +302,15 @@ addLayersControls
     // Per final patch (so not geometry!) the layer information
     layers
     {
+        sphere.stl_firstSolid
+        {
+            nSurfaceLayers 1;
+
+        }
+        maxY
+        {
+            nSurfaceLayers 1;
+        }
     }
 
     // Expansion factor for layer mesh

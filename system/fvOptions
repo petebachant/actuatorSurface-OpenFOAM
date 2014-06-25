@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.x                                 |
+|  \\    /   O peration     | Version:  2.2.2                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -24,11 +24,11 @@ disk1
 
     actuationDiskSourceCoeffs
     {
-        fieldNames  (U);
+        fieldNames  (U k);
         diskDir     (1 0 0);   // orientation of the disk
-        Cp          0.26;      // Cp
-        Ct          0.96;       // Ct
-        diskArea    1.0;         // disk area
+        Cp          0.70;      // Cp
+        Ct          1.38;       // Ct
+        diskArea    0.10;         // disk area
         upstreamPoint (-1.0 0 0);
     }
 }

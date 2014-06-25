@@ -18,7 +18,6 @@ FoamFile
 actions
 (
     // actuatorDisk
-/*
     {
         name 	actuatorDisk;
         type	cellSet;
@@ -26,24 +25,9 @@ actions
         source	boxToCell;
         sourceInfo
         {
-            box (-0.5 -0.5 -0.5) (0.5 0.5 0.5)
+            box (-0.05 -0.5 -0.05) (0.05 0.5 0.05)
         }
     }
-*/
-    {
-        name 	actuatorDisk;
-        type	cellSet;
-        action	new;
-        source	cylinderToCell;
-        sourceInfo
-        {
-            type cylinder; 
-            p1 (0 0 -0.5); 
-            p2 (0 0 0.5); 
-            radius 0.5;
-        }
-    }
-
     {
         name    actuatorDisk;
         type    cellZoneSet;

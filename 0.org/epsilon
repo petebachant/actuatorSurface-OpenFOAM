@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.x                                 |
+|  \\    /   O peration     | Version:  2.2.2                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -24,10 +24,16 @@ internalField   uniform $turbulentEpsilon;
 boundaryField
 {
     // #include "include/ABLConditions"
-
-    //- Set patchGroups for constraint patches
-    #include "${WM_PROJECT_DIR}/etc/caseDicts/setConstraintTypes"
-
+/*
+    "terrain_.*"
+    {
+        type            epsilonWallFunction;
+        Cmu             0.09;
+        kappa           0.4;
+        E               9.8;
+        value           $internalField;
+    }
+*/
     inlet
     {
         type            fixedValue;
@@ -42,18 +48,6 @@ boundaryField
     }
 
     walls
-    {
-        type            epsilonWallFunction;
-        value           uniform 14.855;
-    }
-
-    top
-    {
-        type            epsilonWallFunction;
-        value           uniform 14.855;
-    }
-
-    bottom
     {
         type            epsilonWallFunction;
         value           uniform 14.855;

@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.x                                 |
+|  \\    /   O peration     | Version:  2.2.2                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -24,9 +24,6 @@ boundaryField
 {
     // #include "include/ABLConditions"
 
-    //- Set patchGroups for constraint patches
-    #include "${WM_PROJECT_DIR}/etc/caseDicts/setConstraintTypes"
-
     outlet
     {
         type            inletOutlet;
@@ -41,18 +38,6 @@ boundaryField
     }
 
     walls
-    {
-        type            kqRWallFunction;
-        value           uniform 0.0;
-    }
-
-    top
-    {
-        type            kqRWallFunction;
-        value           uniform 0.0;
-    }
-
-    bottom
     {
         type            kqRWallFunction;
         value           uniform 0.0;

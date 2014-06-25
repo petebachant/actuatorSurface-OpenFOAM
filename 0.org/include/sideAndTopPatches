@@ -6,7 +6,7 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-/*top
+top
 {
     type empty;
 }
@@ -15,7 +15,7 @@ bottom
 {
     type empty;
 }
-*/
+
 "proc.*"
 {
     type            processor;

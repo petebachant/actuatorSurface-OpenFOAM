@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.x                                 |
+|  \\    /   O peration     | Version:  2.2.2                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -22,10 +22,6 @@ internalField   uniform $pressure;
 
 boundaryField
 {
-
-    //- Set patchGroups for constraint patches
-    #include "${WM_PROJECT_DIR}/etc/caseDicts/setConstraintTypes"
-
     inlet
     {
         type            zeroGradient;
@@ -38,16 +34,6 @@ boundaryField
     }
 
     walls
-    {
-        type            zeroGradient;
-    }
-
-    top
-    {
-        type            zeroGradient;
-    }
-
-    bottom
     {
         type            zeroGradient;
     }

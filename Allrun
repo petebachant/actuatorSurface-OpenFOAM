@@ -12,28 +12,23 @@ cp system/decomposeParDict.hierarchical system/decomposeParDict
 runApplication decomposePar
 
 cp system/decomposeParDict.ptscotch system/decomposeParDict
-runParallel snappyHexMesh 4 -overwrite
+runParallel snappyHexMesh 2 -overwrite
 
 find . -type f -iname "*level*" -exec rm {} \;
 
 ls -d processor* | xargs -i cp -r 0.org ./{}/0 $1
+cp -rf 0.org 0
 
-runParallel topoSet 4
-runParallel `getApplication` 4
+runParallel topoSet 2
+runApplication extrudeMesh
+runParallel `getApplication` 2
 
 runApplication reconstructParMesh -constant
 runApplication reconstructPar
 
-# Copy initial conditions
-cp -rf 0.org 0
-
 rm -rf processor*
 
-topoSet
-runApplication vorticity
-runApplication R
-
-./gensampledict
-sample -latestTime
+runApplication uprime
+runApplication sample
 
 # ----------------------------------------------------------------- end-of-file
