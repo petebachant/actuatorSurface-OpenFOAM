@@ -24,7 +24,15 @@ internalField   uniform $flowVelocity;
 boundaryField
 {
     //#include "include/ABLConditions"
-    #include "include/fixedInlet"
+    //#include "include/fixedInlet"
+
+    inlet
+    {
+        type            turbulentInlet;
+        referenceField  uniform (1 0 0);
+        fluctuationScale (0.02 0.01 0.01);
+        value           uniform (1 0 0);
+    }
 
     outlet
     {
@@ -39,6 +47,17 @@ boundaryField
 	value		uniform (1 0 0);
     }
 
+    top
+    {
+	type		fixedValue;
+	value		uniform (1 0 0);
+    }
+
+    bottom
+    {
+	type		fixedValue;
+	value		uniform (1 0 0);
+    }
 /*
     inlet
     {

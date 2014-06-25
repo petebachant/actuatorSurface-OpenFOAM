@@ -42,6 +42,18 @@ boundaryField
         type            kqRWallFunction;
         value           uniform 0.0;
     }
+
+    top
+    {
+        type            kqRWallFunction;
+        value           uniform 0.0;
+    }
+
+    bottom
+    {
+        type            kqRWallFunction;
+        value           uniform 0.0;
+    }
 /*
     ground
     {

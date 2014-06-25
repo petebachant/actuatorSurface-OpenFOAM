@@ -52,6 +52,18 @@ boundaryField
         type            epsilonWallFunction;
         value           uniform 14.855;
     }
+
+    top
+    {
+        type            epsilonWallFunction;
+        value           uniform 14.855;
+    }
+
+    bottom
+    {
+        type            epsilonWallFunction;
+        value           uniform 14.855;
+    }
 /*
     inlet
     {

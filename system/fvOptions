@@ -24,11 +24,11 @@ disk1
 
     actuationDiskSourceCoeffs
     {
-        fieldNames  (U k);
+        fieldNames  (U);
         diskDir     (1 0 0);   // orientation of the disk
-        Cp          0.70;      // Cp
-        Ct          1.38;       // Ct
-        diskArea    0.10;         // disk area
+        Cp          0.26;      // Cp
+        Ct          0.85;       // Ct
+        diskArea    1.0;         // disk area
         upstreamPoint (-1.0 0 0);
     }
 }

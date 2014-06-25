@@ -40,6 +40,18 @@ boundaryField
         type            nutkWallFunction;
         value           uniform 0;
     }
+
+    top
+    {
+        type            nutkWallFunction;
+        value           uniform 0;
+    }
+
+    bottom
+    {
+        type            nutkWallFunction;
+        value           uniform 0;
+    }
 /*
     "terrain_.*"
     {
