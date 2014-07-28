@@ -32,8 +32,44 @@ disk1
         upstreamPoint (-1.0 0 0);
     }
 }
-/*
-turbSource
+
+momentumSource
+{
+    type            vectorExplicitSetValue;
+    active          on;
+    selectionMode   points;
+    points
+    (
+        (0 1 0)
+    );
+    
+    vectorExplicitSetValueCoeffs
+    {
+        injectionRate
+        {
+            U   (1 0 0);
+        }
+    }
+}
+
+turbSourceExplicit
+{
+    type            scalarExplicitSetValue;
+    active          on;
+    selectionMode   cellSet;
+    cellSet         actuatorDisk;
+
+    scalarExplicitSetValueCoeffs
+    {
+        injectionRate
+        {
+            k           30.7;
+            epsilon     1.5;
+        }
+    }
+}
+
+turbSourceSemiImplicit
 {
     type            scalarSemiImplicitSource;
     active          on;
@@ -45,10 +81,10 @@ turbSource
         volumeMode      absolute; // specific
         injectionRateSuSp
         {
-            k           (300.7 0);
-           // epsilon     (1.5  0);
+            k           (30.7 0);
+            epsilon     (1.5  0);
         }
     }
 }
-*/
+
 // ************************************************************************* //
