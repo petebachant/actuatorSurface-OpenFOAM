@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.x                                 |
+|  \\    /   O peration     | Version:  2.2.2                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -24,10 +24,15 @@ internalField   uniform $flowVelocity;
 boundaryField
 {
     //#include "include/ABLConditions"
-    #include "include/fixedInlet"
+    //#include "include/fixedInlet"
 
-    //- Set patchGroups for constraint patches
-    #include "${WM_PROJECT_DIR}/etc/caseDicts/setConstraintTypes"
+    inlet
+    {
+        type            turbulentInlet;
+        referenceField  uniform (1 0 0);
+        fluctuationScale (0.02 0.01 0.01);
+        value           uniform (1 0 0);
+    }
 
     outlet
     {
@@ -44,7 +49,8 @@ boundaryField
 
     top
     {
-	type		slip;
+	type		fixedValue;
+	value		uniform (1 0 0);
     }
 
     bottom
