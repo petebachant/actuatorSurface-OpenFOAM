@@ -18,7 +18,7 @@ libs            ("libincompressibleRASModels.so");
 
 application     pimpleFoam;
 
-startFrom       startTime;
+startFrom       latestTime;
 
 startTime       0;
 
@@ -48,6 +48,6 @@ runTimeModifiable true;
 
 adjustTimeStep  true;
 
-maxCo           2.0;
+maxCo           0.9;
 
 // ************************************************************************* //

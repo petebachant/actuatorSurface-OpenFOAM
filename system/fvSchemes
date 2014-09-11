@@ -31,6 +31,7 @@ divSchemes
 {
     default         none;
     div(phi,U)      Gauss linear;
+    div(phi,epsilon)      Gauss limitedLinear 1;
     div(phi,k)      Gauss limitedLinear 1;
     div(phi,B)      Gauss limitedLinear 1;
     div(phi,nuTilda) Gauss limitedLinear 1;

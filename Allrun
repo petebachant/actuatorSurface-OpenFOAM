@@ -8,32 +8,14 @@ cd ${0%/*} || exit 1    # run from this directory
 mkdir 0
 
 runApplication blockMesh
-cp system/decomposeParDict.hierarchical system/decomposeParDict
-runApplication decomposePar
+runApplication snappyHexMesh -overwrite
+runApplication topoSet
 
-cp system/decomposeParDict.ptscotch system/decomposeParDict
-runParallel snappyHexMesh 4 -overwrite
-
-find . -type f -iname "*level*" -exec rm {} \;
-
-ls -d processor* | xargs -i cp -r 0.org ./{}/0 $1
-
-runParallel topoSet 4
-runParallel `getApplication` 4
-
-runApplication reconstructParMesh -constant
-runApplication reconstructPar
-
-# Copy initial conditions
+rm -rf 0
 cp -rf 0.org 0
 
-rm -rf processor*
+runApplication `getApplication`
 
-topoSet
-runApplication vorticity
-runApplication R
+#./gensampledict
+#sample -latestTime
 
-./gensampledict
-sample -latestTime
-
-# ----------------------------------------------------------------- end-of-file
