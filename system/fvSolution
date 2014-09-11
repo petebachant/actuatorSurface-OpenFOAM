@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.2                                 |
+|  \\    /   O peration     | Version:  2.3.0                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -10,86 +10,72 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
     object      fvSolution;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 solvers
 {
+    pcorr
+    {
+        solver          GAMG;
+        tolerance       1e-2;
+        relTol          0;
+        smoother        DICGaussSeidel;
+        cacheAgglomeration no;
+        nCellsInCoarsestLevel 10;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+        maxIter         50;
+    }
+
     p
     {
-        solver          PCG;
-        preconditioner  DIC;
-        tolerance       1e-06;
-        relTol          0.05;
+        $pcorr;
+        tolerance       1e-5;
+        relTol          0.01;
     }
 
     pFinal
     {
-        solver          PCG;
-        preconditioner  DIC;
-        tolerance       1e-06;
-        relTol          0;
-    }
-
-    U
-    {
-        solver          PBiCG;
-        preconditioner  DILU;
-        tolerance       1e-05;
-        relTol          0;
-    }
-
-    UFinal
-    {
-        solver          PBiCG;
-        preconditioner  DILU;
+        $p;
         tolerance       1e-6;
         relTol          0;
     }
 
-    "(k|epsilon)"
+    "(U|k|epsilon)"
     {
-        solver          PBiCG;
-        preconditioner  DILU;
-        tolerance       1e-05;
-        relTol          0;
-    }
-
-    "(kFinal|epsilonFinal)"
-    {
-        solver          PBiCG;
-        preconditioner  DILU;
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
         tolerance       1e-6;
-        relTol          0;
+        relTol          0.1;
     }
 
-    B
+    "(U|k|epsilon)Final"
     {
-        solver          PBiCG;
-        preconditioner  DILU;
-        tolerance       1e-05;
-        relTol          0;
-    }
-
-    nuTilda
-    {
-        solver          PBiCG;
-        preconditioner  DILU;
-        tolerance       1e-05;
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
         relTol          0;
     }
 }
 
 PIMPLE
 {
-    nOuterCorrectors 2;
-    nCorrectors     2;
+    correctPhi          no;
+    nOuterCorrectors    2;
+    nCorrectors         2;
     nNonOrthogonalCorrectors 1;
-    pRefCell        1001;
-    pRefValue       0;
 }
 
+relaxationFactors
+{
+    "(U|k|epsilon).*"   1;
+}
+
+cache
+{
+    grad(U);
+}
 
 // ************************************************************************* //
