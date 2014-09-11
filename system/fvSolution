@@ -45,7 +45,7 @@ solvers
     {
         solver          PBiCG;
         preconditioner  DILU;
-        tolerance       1e-05;
+        tolerance       1e-6;
         relTol          0;
     }
 
@@ -61,7 +61,7 @@ solvers
     {
         solver          PBiCG;
         preconditioner  DILU;
-        tolerance       1e-05;
+        tolerance       1e-6;
         relTol          0;
     }
 
@@ -84,9 +84,9 @@ solvers
 
 PIMPLE
 {
-    nOuterCorrectors 1;
+    nOuterCorrectors 2;
     nCorrectors     2;
-    nNonOrthogonalCorrectors 0;
+    nNonOrthogonalCorrectors 1;
     pRefCell        1001;
     pRefValue       0;
 }
