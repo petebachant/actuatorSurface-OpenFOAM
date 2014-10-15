@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+planeAverageAdvectionZ
+{
+    type swakExpression;
+    outputControlMode timeStep;
+    outputInterval 1;
+    valueType surface;
+    surfaceName testPlane;
+    surface {
+        type plane;
+        basePoint (7.9 0.0 0.0);
+        normalVector (1 0 0);
+        interpolate true;
+    };
+    verbose true;
+    expression "-U.z/U.x*gradUx.z";
+    accumulations (weightedAverage);
+}
+
+planeAverageAdvectionY
+{
+    type swakExpression;
+    outputControlMode timeStep;
+    outputInterval 1;
+    valueType surface;
+    surfaceName testPlane;
+    verbose true;
+    expression "-U.y/U.x*gradUx.y";
+    accumulations (weightedAverage);
+}
+/*
+    planeAverageRxy
+    {
+        type swakExpression;
+        outputControlMode timeStep;
+        outputInterval 1;
+        valueType surface;
+        surfaceName testPlane;
+        verbose true;
+        expression "1/U.x*gradR.12";
+        accumulations (weightedAverage);
+    }
+*/
+
+// ************************************************************************* //

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+funkyDoCalc system/funkyDoCalcDict -latestTime
+
+# ----------------------------------------------------------------- end-of-file

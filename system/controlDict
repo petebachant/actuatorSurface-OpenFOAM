@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.2                                 |
+|  \\    /   O peration     | Version:  2.3.x                                 |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -59,23 +59,18 @@ libs
 
 functions
 {
-    planeAverage
+
+    gradUx
     {
-        type swakExpression;
-        outputControlMode timeStep;
-        outputInterval 1;
-        valueType surface;
-        surfaceName testPlane;
-        surface {
-            type plane;
-            basePoint (7.8 0.0 0.0);
-            normalVector (1 0 0);
-            interpolate true;
-        };
-        verbose true;
-        expression "U.x";
-        accumulations (weightedAverage average);
+        type expressionField;
+        outputControl outputTime;
+        fieldName gradUx;
+        expression "grad(U.x)";
+        autowrite true;        
     }
+
+    #include "funkyDoCalcDict"
+
 }
 
 // ************************************************************************* //
