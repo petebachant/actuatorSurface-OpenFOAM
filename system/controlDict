@@ -14,11 +14,9 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-libs            ("libincompressibleRASModels.so");
-
 application     simpleFoam;
 
-startFrom       startTime;
+startFrom       latestTime;
 
 startTime       0;
 
@@ -49,5 +47,36 @@ runTimeModifiable true;
 adjustTimeStep  true;
 
 maxCo           0.9;
+
+libs
+(
+    "libOpenFOAM.so"
+    "libincompressibleRASModels.so"
+    "libgroovyBC.so" 
+    "libsimpleSwakFunctionObjects.so" 
+    "libswakFunctionObjects.so"
+);
+
+functions
+{
+    planeAverage
+    {
+        type swakExpression;
+        outputControlMode timeStep;
+        outputInterval 1;
+        valueType surface;
+        surfaceName testPlane;
+        surface {
+            type plane;
+            basePoint (0.0 0.0 0.0);
+            normalVector (1 0 0);
+            interpolate true;
+        };
+        verbose true;
+        expression "U.x";
+        accumulations (weightedAverage);
+    }
+
+}
 
 // ************************************************************************* //
