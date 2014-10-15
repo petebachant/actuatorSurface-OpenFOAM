@@ -23,7 +23,7 @@ planeAverageAdvectionZ
     surfaceName testPlane;
     surface {
         type plane;
-        basePoint (7.9 0.0 0.0);
+        basePoint (1.0 0.0 0.0);
         normalVector (1 0 0);
         interpolate true;
     };
@@ -43,18 +43,18 @@ planeAverageAdvectionY
     expression "-U.y/U.x*gradUx.y";
     accumulations (weightedAverage);
 }
-/*
-    planeAverageRxy
-    {
-        type swakExpression;
-        outputControlMode timeStep;
-        outputInterval 1;
-        valueType surface;
-        surfaceName testPlane;
-        verbose true;
-        expression "1/U.x*gradR.12";
-        accumulations (weightedAverage);
-    }
-*/
+
+planeAverageTurbTrans
+{
+    type swakExpression;
+    outputControlMode timeStep;
+    outputInterval 1;
+    valueType surface;
+    surfaceName testPlane;
+    verbose true;
+    expression "1/U.x*nut*laplacianUx";
+    accumulations (weightedAverage);
+}
+
 
 // ************************************************************************* //

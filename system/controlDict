@@ -22,7 +22,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         50; // Was 5000
+endTime         100; // Was 5000
 
 deltaT          1;
 
@@ -69,7 +69,16 @@ functions
         autowrite true;        
     }
 
-    #include "funkyDoCalcDict"
+    laplacianUx
+    {
+        type expressionField;
+        outputControl outputTime;
+        fieldName laplacianUx;
+        expression "laplacian(U.x)";
+        autowrite true;        
+    }
+
+//    #include "funkyDoCalcDict"
 
 }
 
