@@ -12,14 +12,15 @@ cp system/decomposeParDict.hierarchical system/decomposeParDict
 runApplication decomposePar
 
 cp system/decomposeParDict.ptscotch system/decomposeParDict
-runParallel snappyHexMesh 4 -overwrite
+nProc=$(getNumberOfProcessors)
+runParallel snappyHexMesh $nProc -overwrite
 
 find . -type f -iname "*level*" -exec rm {} \;
 
 ls -d processor* | xargs -i cp -r 0.org ./{}/0 $1
 
-runParallel topoSet 4
-runParallel `getApplication` 4
+runParallel topoSet $nProc
+runParallel `getApplication` $nProc
 
 runApplication reconstructParMesh -constant
 runApplication reconstructPar
