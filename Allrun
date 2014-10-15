@@ -26,6 +26,7 @@ runApplication reconstructParMesh -constant
 runApplication reconstructPar
 
 # Copy initial conditions
+rm -rf 0
 cp -rf 0.org 0
 
 rm -rf processor*
