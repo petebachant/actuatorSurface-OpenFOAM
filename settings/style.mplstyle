@@ -1,0 +1,12 @@
+# matplotlib style parameters
+
+xtick.major.pad: 12
+
+font.size: 16.0
+#font.family: "serif"
+#font.serif: "cmr10"
+text.usetex: False
+
+lines.markersize: 9
+lines.markeredgewidth: 1
+lines.linewidth: 1.2
