@@ -11,10 +11,14 @@ import matplotlib.pyplot as plt
 import re
 import numpy as np
 import os
-from styleplot import styleplot
 import sys
 import foampy
-import fdiff
+from pxl import fdiff
+
+plt.style.use("settings/style.mplstyle")
+
+def styleplot():
+    plt.tight_layout()
     
 exp_path = "/media/pete/External 2/Research/Experiments/2014 Spring RVAT Re dep"
 
@@ -44,7 +48,8 @@ def loadwake():
         data[z_H] = data_s
     return data
     
-def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf"):
+def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf",
+             print_analysis=True):
     data = loadwake()
     y_R = data[0][0]/R
     z_H = np.asarray(sorted(data.keys()))
@@ -163,6 +168,8 @@ def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf"):
         styleplot()
         if save:
             plt.savefig(savepath+"\\meancomboquiv_AD"+savetype)
+    if print_analysis:
+        print("Spatial average of U =", u.mean())
     plt.show()
         
 def plotexpwake(Re_D, quantity, z_H=0.0, save=False, savepath="", 
@@ -197,7 +204,7 @@ def main():
         p = "C:/Users/Pete/" + p
     plt.close("all")
     
-    plotwake(plotlist=["meancomboquiv"], save=True, savepath=p)
+    plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
 
 if __name__ == "__main__":
     main()
