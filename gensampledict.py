@@ -15,8 +15,7 @@ import foampy
 # Input parameters
 setformat = "raw"
 interpscheme = "cellPoint"
-fields = ["U", "vorticity"]
-x = 1.0
+fields = ["U"]
 ymax = 1.83
 ymin = -1.83
 ny = 41
@@ -42,7 +41,13 @@ FoamFile
 """
 
 
-def main():
+def main(x=None):
+    if not x:
+        if len(sys.argv) > 1:
+            x = float(sys.argv[1])
+        else:
+            x = 1.0
+
     z_array = np.linspace(zmin, zmax, nz)
     
     txt = header + "\n" 

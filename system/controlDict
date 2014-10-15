@@ -68,13 +68,13 @@ functions
         surfaceName testPlane;
         surface {
             type plane;
-            basePoint (0.0 0.0 0.0);
+            basePoint (7.8 0.0 0.0);
             normalVector (1 0 0);
             interpolate true;
         };
         verbose true;
         expression "U.x";
-        accumulations (weightedAverage);
+        accumulations (weightedAverage average);
     }
 }
 

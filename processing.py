@@ -13,6 +13,7 @@ import numpy as np
 import os
 import sys
 import foampy
+from subprocess import call
 from pxl import fdiff
 
 plt.style.use("settings/style.mplstyle")
@@ -35,6 +36,11 @@ ylabels = {"meanu" : r"$U/U_\infty$",
            "meanv" : r"$V/U_\infty$",
            "meanw" : r"$W/U_\infty$",
            "meanuv" : r"$\overline{u'v'}/U_\infty^2$"}
+
+def resample_wake(x=1.0):
+    import gensampledict
+    gensampledict.main(x)
+    call(["sample", "-latestTime"])
     
 def loadwake():
     """Loads wake data and returns y/R and statistics."""
@@ -62,7 +68,10 @@ def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf",
         u[n,:] = data[z_H[n]][1]
         v[n,:] = data[z_H[n]][2]
         w[n,:] = data[z_H[n]][3]
-        xvorticity[n,:] = data[z_H[n]][4]
+        try:
+            xvorticity[n,:] = data[z_H[n]][4]
+        except IndexError:
+            pass
     def turb_lines():
         plt.hlines(0.5, -1, 1, linestyles='solid', linewidth=2)
         plt.vlines(-1, 0, 0.5, linestyles='solid', linewidth=2)
@@ -151,10 +160,11 @@ def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf",
         #plt.xlim(-3.2, 3.2)
         plt.xlim(-3.66, 3.66)
         plt.ylim(-1.22, 1.22)
-        plt.quiverkey(Q, 0.8, 0.22, 0.1, r'$0.1 U_\infty$',
-                   labelpos='E',
-                   coordinates='figure',
-                   fontproperties={'size': 'small'})
+        veckeyscale = 0.01
+        plt.quiverkey(Q, 0.8, 0.22, veckeyscale, 
+                      r'${} U_\infty$'.format(veckeyscale),
+                      labelpos='E', coordinates='figure', 
+                      fontproperties={'size': 'small'})
         plt.hlines(0.5, -1, 1, linestyles='solid', colors='gray',
                    linewidth=3)
         plt.hlines(-0.5, -1, 1, linestyles='solid', colors='gray',
@@ -203,7 +213,7 @@ def main():
     elif "win" in sys.platform:
         p = "C:/Users/Pete/" + p
     plt.close("all")
-    
+    resample_wake(x=6)
     plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
 
 if __name__ == "__main__":
