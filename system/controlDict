@@ -22,7 +22,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         100; // Was 5000
+endTime         500; // Was 5000
 
 deltaT          1;
 
@@ -30,7 +30,7 @@ writeControl    timeStep;
 
 writeInterval   10;
 
-purgeWrite      0;
+purgeWrite      1;
 
 writeFormat     ascii;
 
