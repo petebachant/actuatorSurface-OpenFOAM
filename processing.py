@@ -13,7 +13,7 @@ import numpy as np
 import os
 import sys
 import foampy
-from subprocess import call
+from subprocess import call, check_output
 from pxl import fdiff
 
 plt.style.use("settings/style.mplstyle")
@@ -206,6 +206,36 @@ def plotexpwake(Re_D, quantity, z_H=0.0, save=False, savepath="",
     plt.grid(True)
     styleplot()
 
+def make_momentum_trans_bargraph(print_analysis=True):
+    with open("log.funkyDoCalc") as f:
+        for line in f.readlines():
+            try:
+                line = line.replace("=", " ")
+                line = line.split()
+                if line[0] == "planeAverageAdvectionY":
+                    y_adv = float(line[-1])
+                elif line[0] == "weightedAverage":
+                    z_adv = float(line[-1])
+                elif line[0] == "planeAverageTurbTrans":
+                    turb_trans = float(line[-1])
+                elif line[0] == "planeAverageViscTrans":
+                    visc_trans = float(line[-1])
+            except IndexError:
+                pass
+    plt.figure(figsize=(6,4))
+    ax = plt.gca()
+    ax.bar(range(4), [y_adv, z_adv, turb_trans, visc_trans], 
+           color="gray", edgecolor="black", hatch="//", width=0.5)
+    ax.set_xticks(np.arange(4)+0.25)
+    ax.set_xticklabels(["$y$-adv.", "$z$-adv.",
+                        "Turb.", "Visc."])
+    plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
+    plt.tight_layout()
+    if print_analysis:
+        sum = y_adv + z_adv + turb_trans + visc_trans
+        print("Momentum recovery = {:.3f}% per turbine diameter".format(sum))
+    plt.show()
+
 def main():
     p = "Google Drive/Research/Papers/JOT CFT near-wake/Figures"
     if "linux" in sys.platform:
@@ -214,7 +244,8 @@ def main():
         p = "C:/Users/Pete/" + p
     plt.close("all")
 #    resample_wake(x=1.0)
-    plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
+#    plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
+    make_momentum_trans_bargraph()
 
 if __name__ == "__main__":
     main()
