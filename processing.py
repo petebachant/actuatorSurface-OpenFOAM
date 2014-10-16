@@ -275,7 +275,7 @@ def plot_mom_transport(show=True):
     plt.plot(df.x, df.z_adv, "-s", label=r"$-W \partial U / \partial z$")
     plt.plot(df.x, df.turb_trans, "-^", label=r"$\nu_t \nabla^2 U$")
     plt.plot(df.x, df.visc_trans, "->", label=r"$\nu \nabla^2 U$")
-    plt.plot(df.x, df.pressure_trans/10, "-<", label=r"-$\partial P / \partial x$ ($\times 10^{-1}$)")
+    plt.plot(df.x, df.pressure_trans/10, "-<", label=r"$-\partial P / \partial x$ ($\times 10^{-1}$)")
     plt.legend(loc=4)
     plt.xlabel("$x/D$")
     plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
