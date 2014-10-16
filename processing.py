@@ -8,14 +8,11 @@ by Pete Bachant (petebachant@gmail.com)
 """
 from __future__ import division, print_function
 import matplotlib.pyplot as plt
-import re
 import numpy as np
 import os
 import sys
 import foampy
-from subprocess import call, check_output
-from pxl import fdiff
-import foampy
+from subprocess import call
 import pandas
 
 plt.style.use("settings/style.mplstyle")
@@ -295,16 +292,18 @@ def plot_U_streamwise(show=True):
     if show:
         plt.show()
 
-def plot_streamwise():
+def plot_streamwise(save=False, savepath=""):
     plt.figure(figsize=(12,5))
     plt.subplot(121)
     plot_U_streamwise(show=False)
     plt.subplot(122)
     plot_mom_transport(show=False)
+    if save:
+        plt.savefig(os.path.join(savepath, "AD_streamwise.pdf"))
     plt.show()
 
 def main():
-    p = "Google Drive/Research/Papers/JOT CFT near-wake/Figures"
+    p = "Google Drive/Research/Papers/JoT CFT near-wake/Figures"
     if "linux" in sys.platform:
         p = "/home/pete/" + p
     elif "win" in sys.platform:
@@ -315,7 +314,7 @@ def main():
 #    make_momentum_trans_bargraph()
 #    run_funky_batch()
 #    plot_mom_transport()
-    plot_streamwise()
+    plot_streamwise(save=True, savepath=p)
 
 if __name__ == "__main__":
     main()
