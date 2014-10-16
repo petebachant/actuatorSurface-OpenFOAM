@@ -61,11 +61,22 @@ libs
 functions
 {
 
+    pressureGradient
+    {
+        type expressionField;
+        outputControl outputTime;
+        fieldName gradP;
+        dimension [1 -2 -2 0 0 0 0];
+        expression "grad(p)";
+        autowrite true;        
+    }
+
     gradUx
     {
         type expressionField;
         outputControl outputTime;
         fieldName gradUx;
+        dimension [0 0 -1 0 0 0 0];
         expression "grad(U.x)";
         autowrite true;        
     }
@@ -75,6 +86,7 @@ functions
         type expressionField;
         outputControl outputTime;
         fieldName laplacianUx;
+        dimension [0 -1 -1 0 0 0 0];
         expression "laplacian(U.x)";
         autowrite true;        
     }

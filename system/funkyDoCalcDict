@@ -23,7 +23,7 @@ planeAverageAdvectionZ
     surfaceName testPlane;
     surface {
         type plane;
-        basePoint (6.0 0.0 0.0);
+        basePoint (1.0 0.0 0.0);
         normalVector (1 0 0);
         interpolate true;
     };
@@ -65,6 +65,18 @@ planeAverageViscTrans
     surfaceName testPlane;
     verbose true;
     expression "1/U.x*1e-6*laplacianUx";
+    accumulations (weightedAverage);
+}
+
+planeAveragePressureGradient
+{
+    type swakExpression;
+    outputControlMode timeStep;
+    outputInterval 1;
+    valueType surface;
+    surfaceName testPlane;
+    verbose true;
+    expression "-gradP.x/U.x";
     accumulations (weightedAverage);
 }
 
