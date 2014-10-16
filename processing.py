@@ -229,7 +229,9 @@ def read_funky_log():
     return {"y_adv" : y_adv, "z_adv" : z_adv, "turb_trans" : turb_trans,
             "visc_trans" : visc_trans}
 
-def run_funky_batch(xlist=[0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0]):
+def run_funky_batch():
+    xlist = [-1.99, -1.5, -1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 
+             1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 7.99]
     df = pandas.DataFrame()
     for x in xlist:
         print("Setting measurement plane to x =", x)
@@ -313,9 +315,9 @@ def main():
 #    resample_wake(x=1.0)
 #    plotwake(plotlist=["meancomboquiv"], save=True, savepath=p)
 #    make_momentum_trans_bargraph()
-#    run_funky_batch()
+    run_funky_batch()
 #    plot_mom_transport()
-    plot_streamwise(save=True, savepath=p)
+#    plot_streamwise(save=True, savepath=p)
 
 if __name__ == "__main__":
     main()
