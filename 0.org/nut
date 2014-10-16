@@ -21,7 +21,6 @@ internalField   uniform 0;
 
 boundaryField
 {
-    // #include "include/ABLConditions"
 
     //- Set patchGroups for constraint patches
     #include "${WM_PROJECT_DIR}/etc/caseDicts/setConstraintTypes"
@@ -55,20 +54,7 @@ boundaryField
         type            nutkWallFunction;
         value           uniform 0;
     }
-/*
-    "terrain_.*"
-    {
-        type            nutkAtmRoughWallFunction;
-        z0              $z0;
-        value           uniform 0.0;
-    }
 
-    ground
-    {
-        type            calculated;
-        value           uniform 0;
-    }
-*/
     #include "include/sideAndTopPatches"
 }
 

@@ -22,7 +22,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         500; // Was 5000
+endTime         2000; // Was 5000
 
 deltaT          1;
 
@@ -55,6 +55,7 @@ libs
     "libgroovyBC.so" 
     "libsimpleSwakFunctionObjects.so" 
     "libswakFunctionObjects.so"
+    "libswakFvOptions.so"
 );
 
 functions

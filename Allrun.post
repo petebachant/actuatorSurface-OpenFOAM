@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "Running funkyDoCalc"
 funkyDoCalc system/funkyDoCalcDict -latestTime
 
 # ----------------------------------------------------------------- end-of-file

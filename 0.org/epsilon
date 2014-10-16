@@ -31,7 +31,7 @@ boundaryField
     inlet
     {
         type            fixedValue;
-        value           uniform 14.855;
+        value           $internalField;
     }
 
     outlet
@@ -44,37 +44,21 @@ boundaryField
     walls
     {
         type            epsilonWallFunction;
-        value           uniform 14.855;
+        value           $internalField;
     }
 
     top
     {
         type            epsilonWallFunction;
-        value           uniform 14.855;
+        value           $internalField;
     }
 
     bottom
     {
         type            epsilonWallFunction;
-        value           uniform 14.855;
-    }
-/*
-    inlet
-    {
-        type            atmBoundaryLayerInletEpsilon;
-        Uref            $Uref;
-        Href            $Href;
-        z               $zDirection;
-        z0              $z0;
         value           $internalField;
-        zGround         $zGround;
     }
 
-    ground
-    {
-        type            zeroGradient;
-    }
-*/
     #include "include/sideAndTopPatches"
 }
 

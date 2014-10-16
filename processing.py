@@ -213,7 +213,7 @@ def main():
     elif "win" in sys.platform:
         p = "C:/Users/Pete/" + p
     plt.close("all")
-    resample_wake(x=6)
+#    resample_wake(x=1.0)
     plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
 
 if __name__ == "__main__":

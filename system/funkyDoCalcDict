@@ -68,4 +68,16 @@ planeAverageViscTrans
     accumulations (weightedAverage);
 }
 
+planeAverageUx
+{
+    type swakExpression;
+    outputControlMode timeStep;
+    outputInterval 1;
+    valueType surface;
+    surfaceName testPlane;
+    verbose true;
+    expression "U.x";
+    accumulations (weightedAverage);
+}
+
 // ************************************************************************* //
