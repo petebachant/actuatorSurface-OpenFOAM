@@ -223,10 +223,12 @@ def read_funky_log():
                     turb_trans = float(line[-1])
                 elif line[0] == "planeAverageViscTrans":
                     visc_trans = float(line[-1])
+                elif line[0] == "planeAveragePressureGradient":
+                    pressure_trans = float(line[-1])
             except IndexError:
                 pass
     return {"y_adv" : y_adv, "z_adv" : z_adv, "turb_trans" : turb_trans,
-            "visc_trans" : visc_trans}
+            "visc_trans" : visc_trans, "pressure_trans" : pressure_trans}
 
 def run_funky_batch():
     xlist = [-1.99, -1.5, -1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 
@@ -250,27 +252,29 @@ def make_momentum_trans_bargraph(print_analysis=True):
     z_adv = data["z_adv"]
     turb_trans = data["turb_trans"]
     visc_trans = data["visc_trans"]
+    pressure_trans = data["pressure_trans"]
     plt.figure(figsize=(6,4))
     ax = plt.gca()
-    ax.bar(range(4), [y_adv, z_adv, turb_trans, visc_trans], 
+    ax.bar(range(5), [y_adv, z_adv, turb_trans, visc_trans, pressure_trans], 
            color="gray", edgecolor="black", hatch="//", width=0.5)
-    ax.set_xticks(np.arange(4)+0.25)
+    ax.set_xticks(np.arange(5)+0.25)
     ax.set_xticklabels(["$y$-adv.", "$z$-adv.",
-                        "Turb.", "Visc."])
+                        "Turb.", "Visc.", "Press."])
     plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
     plt.tight_layout()
     if print_analysis:
-        sum = y_adv + z_adv + turb_trans + visc_trans
+        sum = y_adv + z_adv + turb_trans + visc_trans + pressure_trans
         print("Momentum recovery = {:.3f}% per turbine diameter".format(sum))
     plt.show()
 
 def plot_mom_transport(show=True):
     df = pandas.read_csv("processed/mom_transport.csv")
     print(df)
-    plt.plot(df.x, df.y_adv, ":o", label="$y$-advection")
-    plt.plot(df.x, df.z_adv, ":s", label="$z$-advection")
-    plt.plot(df.x, df.turb_trans, ":^", label="Turbulent diffusion")
-    plt.plot(df.x, df.visc_trans, ":>", label="Viscous diffusion")
+    plt.plot(df.x, df.y_adv, "-o", label="$y$-advection")
+    plt.plot(df.x, df.z_adv, "-s", label="$z$-advection")
+    plt.plot(df.x, df.turb_trans, "-^", label="Turbulent diffusion")
+    plt.plot(df.x, df.visc_trans, "->", label="Viscous diffusion")
+    plt.plot(df.x, df.pressure_trans/10, "-<", label=r"Pressure grad. ($\times 10^{-1}$)")
     plt.legend(loc=4)
     plt.xlabel("$x/D$")
     plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
@@ -314,8 +318,8 @@ def main():
 #    resample_wake(x=1.0)
 #    plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
 #    make_momentum_trans_bargraph()
-    run_funky_batch()
-#    plot_mom_transport()
+#    run_funky_batch()
+    plot_mom_transport()
 #    plot_streamwise(save=True, savepath=p)
 
 if __name__ == "__main__":
