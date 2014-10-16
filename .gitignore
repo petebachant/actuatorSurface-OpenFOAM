@@ -27,3 +27,4 @@ constant/dynamicMeshDict
 system/decomposeParDict
 __pycache__
 system/sampleDict
+processed
