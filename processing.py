@@ -15,6 +15,8 @@ import sys
 import foampy
 from subprocess import call, check_output
 from pxl import fdiff
+import foampy
+import pandas
 
 plt.style.use("settings/style.mplstyle")
 
@@ -206,7 +208,11 @@ def plotexpwake(Re_D, quantity, z_H=0.0, save=False, savepath="",
     plt.grid(True)
     styleplot()
 
-def make_momentum_trans_bargraph(print_analysis=True):
+def set_funky_plane(x=1.0):
+    foampy.dictionaries.replace_value("system/funkyDoCalcDict", "basePoint", 
+                                      "({}".format(x))
+
+def read_funky_log():
     with open("log.funkyDoCalc") as f:
         for line in f.readlines():
             try:
@@ -222,6 +228,28 @@ def make_momentum_trans_bargraph(print_analysis=True):
                     visc_trans = float(line[-1])
             except IndexError:
                 pass
+    return {"y_adv" : y_adv, "z_adv" : z_adv, "turb_trans" : turb_trans,
+            "visc_trans" : visc_trans}
+
+def run_funky_batch(xlist=[0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
+    df = pandas.DataFrame()
+    for x in xlist:
+        set_funky_plane(x)
+        call(["./Allrun.post"])
+        dfi = pandas.DataFrame(read_funky_log(), index=[x])
+        df = df.append(dfi)
+    if not os.path.isdir("processed"):
+        os.mkdir("processed")
+    df.index.name = "x"
+    print(df)
+    df.to_csv("processed/mom_transport.csv", index_label="x")
+
+def make_momentum_trans_bargraph(print_analysis=True):
+    data = read_funky_log()
+    y_adv = data["y_adv"]
+    z_adv = data["z_adv"]
+    turb_trans = data["turb_trans"]
+    visc_trans = data["visc_trans"]
     plt.figure(figsize=(6,4))
     ax = plt.gca()
     ax.bar(range(4), [y_adv, z_adv, turb_trans, visc_trans], 
@@ -245,7 +273,8 @@ def main():
     plt.close("all")
 #    resample_wake(x=1.0)
 #    plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
-    make_momentum_trans_bargraph()
+#    make_momentum_trans_bargraph()
+    run_funky_batch()
 
 if __name__ == "__main__":
     main()
