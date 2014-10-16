@@ -45,6 +45,7 @@ def loadwake():
     """Loads wake data and returns y/R and statistics."""
     folder = os.listdir("postProcessing/sets")[0]
     flist = os.listdir("postProcessing/sets/"+folder)
+    flist.remove("streamwise_U.xy")
     data = {}
     for fname in flist:
         fpath = "postProcessing/sets/"+folder+"/"+fname
@@ -147,7 +148,7 @@ def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf",
         # Add contours of mean velocity
         cs = plt.contourf(y_R, z_H, u, 20, cmap=plt.cm.coolwarm)
         cb = plt.colorbar(cs, shrink=1, extend='both', 
-                          orientation='horizontal', pad=0.12)
+                          orientation='horizontal', pad=0.1)
                           #ticks=np.round(np.linspace(0.44, 1.12, 10), decimals=2))
         cb.set_label(r'$U/U_{\infty}$')
         plt.hold(True)
@@ -159,8 +160,8 @@ def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf",
         #plt.xlim(-3.2, 3.2)
         plt.xlim(-3.66, 3.66)
         plt.ylim(-1.22, 1.22)
-        veckeyscale = 0.01
-        plt.quiverkey(Q, 0.8, 0.22, veckeyscale, 
+        veckeyscale = 0.1
+        plt.quiverkey(Q, 0.8, 0.21, veckeyscale, 
                       r'${} U_\infty$'.format(veckeyscale),
                       labelpos='E', coordinates='figure', 
                       fontproperties={'size': 'small'})
@@ -265,10 +266,10 @@ def make_momentum_trans_bargraph(print_analysis=True):
 def plot_mom_transport(show=True):
     df = pandas.read_csv("processed/mom_transport.csv")
     print(df)
-    plt.plot(df.x, df.y_adv, ":o", label="$y$-advection")
-    plt.plot(df.x, df.z_adv, ":s", label="$z$-advection")
-    plt.plot(df.x, df.turb_trans, ":^", label="Turbulent diffusion")
-    plt.plot(df.x, df.visc_trans, ":>", label="Viscous diffusion")
+    plt.plot(df.x, df.y_adv, "-o", label="$y$-advection")
+    plt.plot(df.x, df.z_adv, "-s", label="$z$-advection")
+    plt.plot(df.x, df.turb_trans, "-^", label="Turbulent diffusion")
+    plt.plot(df.x, df.visc_trans, "->", label="Viscous diffusion")
     plt.legend(loc=4)
     plt.xlabel("$x/D$")
     plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
@@ -310,7 +311,7 @@ def main():
         p = "C:/Users/Pete/" + p
     plt.close("all")
 #    resample_wake(x=1.0)
-#    plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
+#    plotwake(plotlist=["meancomboquiv"], save=True, savepath=p)
 #    make_momentum_trans_bargraph()
 #    run_funky_batch()
 #    plot_mom_transport()
