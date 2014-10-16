@@ -23,7 +23,7 @@ planeAverageAdvectionZ
     surfaceName testPlane;
     surface {
         type plane;
-        basePoint (1.0 0.0 0.0);
+        basePoint (6.0 0.0 0.0);
         normalVector (1 0 0);
         interpolate true;
     };

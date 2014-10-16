@@ -1,0 +1,38 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+setFormat raw; 
+
+interpolationScheme cellPoint; 
+
+sets 
+ ( 
+    streamwise
+    { 
+        type        uniform; 
+        axis        x; 
+        start       (-1.999 0 0);
+        end         (8 0 0);
+        nPoints     101;
+    }
+);
+
+fields 
+(
+    U
+); 
+
+// *********************************************************************** // 

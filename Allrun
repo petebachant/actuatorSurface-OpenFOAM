@@ -36,6 +36,8 @@ runApplication vorticity
 runApplication R
 
 ./gensampledict
-sample -latestTime
+runApplication sample -latestTime
+mv log.sample log.sample.contours
+runApplication sample -latestTime -dict system/sampleDict.streamwise
 
 # ----------------------------------------------------------------- end-of-file
