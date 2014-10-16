@@ -299,7 +299,6 @@ def plot_streamwise():
     plt.figure(figsize=(12,5))
     plt.subplot(121)
     plot_U_streamwise(show=False)
-    plt.grid()
     plt.subplot(122)
     plot_mom_transport(show=False)
     plt.show()
