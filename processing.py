@@ -231,9 +231,10 @@ def read_funky_log():
     return {"y_adv" : y_adv, "z_adv" : z_adv, "turb_trans" : turb_trans,
             "visc_trans" : visc_trans}
 
-def run_funky_batch(xlist=[0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]):
+def run_funky_batch(xlist=[0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0]):
     df = pandas.DataFrame()
     for x in xlist:
+        print("Setting measurement plane to x =", x)
         set_funky_plane(x)
         call(["./Allrun.post"])
         dfi = pandas.DataFrame(read_funky_log(), index=[x])
@@ -264,6 +265,19 @@ def make_momentum_trans_bargraph(print_analysis=True):
         print("Momentum recovery = {:.3f}% per turbine diameter".format(sum))
     plt.show()
 
+def plot_mom_transport():
+    df = pandas.read_csv("processed/mom_transport.csv")
+    print(df)
+    plt.plot(df.x, df.y_adv, ":o", label="$y$-advection")
+    plt.plot(df.x, df.z_adv, ":s", label="$z$-advection")
+    plt.plot(df.x, df.turb_trans, ":^", label="Turbulent diffusion")
+    plt.plot(df.x, df.visc_trans, ":>", label="Viscous diffusion")
+    plt.legend(loc=4)
+    plt.xlabel("$x/D$")
+    plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
+    plt.tight_layout()
+    plt.show()
+
 def main():
     p = "Google Drive/Research/Papers/JOT CFT near-wake/Figures"
     if "linux" in sys.platform:
@@ -274,7 +288,8 @@ def main():
 #    resample_wake(x=1.0)
 #    plotwake(plotlist=["meancomboquiv"], save=False, savepath=p)
 #    make_momentum_trans_bargraph()
-    run_funky_batch()
+#    run_funky_batch()
+    plot_mom_transport()
 
 if __name__ == "__main__":
     main()

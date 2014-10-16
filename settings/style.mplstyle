@@ -10,3 +10,6 @@ text.usetex: False
 lines.markersize: 9
 lines.markeredgewidth: 1
 lines.linewidth: 1.2
+
+legend.numpoints: 1
+legend.fontsize: small
