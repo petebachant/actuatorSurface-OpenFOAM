@@ -278,7 +278,7 @@ def plot_mom_transport(show=True):
     plt.plot(df.x, df.pressure_trans/10, "-<", label=r"$-\partial P / \partial x$ ($\times 10^{-1}$)")
     plt.legend(loc=4)
     plt.xlabel("$x/D$")
-    plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
+    plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UU_\infty D^{-1}}$")
     plt.grid()
     plt.tight_layout()
     if show:
