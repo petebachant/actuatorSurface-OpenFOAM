@@ -11,6 +11,7 @@ systems.
 For Ubuntu 14.04 and similar:
 
 ```
+cd $WM_PROJECT_USER_DIR
 git clone https://github.com/Unofficial-Extend-Project-Mirror/openfoam-extend-Breeder2.0-libraries-swak4Foam swak4Foam
 cd swak4Foam
 ./maintainanceScripts/compileRequirements.sh
