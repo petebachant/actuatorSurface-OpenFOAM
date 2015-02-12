@@ -3,9 +3,9 @@
 xtick.major.pad: 6
 
 font.size: 18.0
-font.family: "serif"
-font.serif: "cmr10"
-text.usetex: True
+#font.family: "serif"
+#font.serif: "cmr10"
+#text.usetex: True
 
 lines.markersize: 9
 lines.markeredgewidth: 1
