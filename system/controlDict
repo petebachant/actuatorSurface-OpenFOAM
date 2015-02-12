@@ -56,6 +56,7 @@ libs
     "libsimpleSwakFunctionObjects.so" 
     "libswakFunctionObjects.so"
     "libswakFvOptions.so"
+    "libmyIncompressibleRASModels.so"
 );
 
 functions
