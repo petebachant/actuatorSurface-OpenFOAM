@@ -52,6 +52,7 @@ libs
 (
     "libOpenFOAM.so"
     "libincompressibleRASModels.so"
+    "libfvOptions.so"
     "libgroovyBC.so" 
     "libsimpleSwakFunctionObjects.so" 
     "libswakFunctionObjects.so"
