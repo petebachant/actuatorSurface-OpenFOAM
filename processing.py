@@ -53,8 +53,8 @@ def loadwake():
         data[z_H] = data_s
     return data
     
-def plotwake(plotlist=["meancontquiv"], save=False, savepath="", savetype=".pdf",
-             print_analysis=True):
+def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures", 
+             savetype=".pdf", print_analysis=True):
     data = loadwake()
     y_R = data[0][0]/R
     z_H = np.asarray(sorted(data.keys()))
@@ -152,7 +152,7 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="", savetype=".pdf"
         cb.set_label(r'$U/U_{\infty}$')
         plt.hold(True)
         # Make quiver plot of v and w velocities
-        Q = plt.quiver(y_R, z_H, v, w, angles='xy', width=0.0022)
+        Q = plt.quiver(y_R, z_H, v, w, angles='xy', width=0.0022, scale=1)
         plt.xlabel(r'$y/R$')
         plt.ylabel(r'$z/H$')
         #plt.ylim(-0.2, 0.78)
@@ -176,10 +176,9 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="", savetype=".pdf"
         ax.set_aspect(2.0)
         styleplot()
         if save:
-            plt.savefig(savepath+"\\meancomboquiv_AD"+savetype)
+            plt.savefig(os.path.join(savepath, "meancontquiv_AD" + savetype))
     if print_analysis:
         print("Spatial average of U =", u.mean())
-    plt.show()
         
 def plotexpwake(Re_D, quantity, z_H=0.0, save=False, savepath="", 
                 savetype=".pdf", newfig=True, marker="--ok",
@@ -265,9 +264,8 @@ def make_momentum_trans_bargraph(print_analysis=True):
     if print_analysis:
         sum = y_adv + z_adv + turb_trans + visc_trans + pressure_trans
         print("Momentum recovery = {:.3f}% per turbine diameter".format(sum))
-    plt.show()
 
-def plot_mom_transport(show=True):
+def plot_mom_transport():
     df = pandas.read_csv("processed/mom_transport.csv")
     print(df)
     plt.plot(df.x, df.y_adv, "-o", label=r"$-V \partial U / \partial y$")
@@ -275,15 +273,13 @@ def plot_mom_transport(show=True):
     plt.plot(df.x, df.turb_trans, "-^", label=r"$\nu_t \nabla^2 U$")
     plt.plot(df.x, df.visc_trans, "->", label=r"$\nu \nabla^2 U$")
     plt.plot(df.x, df.pressure_trans/10, "-<", label=r"$-\partial P / \partial x$ ($\times 10^{-1}$)")
-    plt.legend(loc=4)
+    plt.legend(loc="lower right", ncol=1)
     plt.xlabel("$x/D$")
     plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UU_\infty D^{-1}}$")
     plt.grid()
     plt.tight_layout()
-    if show:
-        plt.show()
 
-def plot_U_streamwise(show=True):
+def plot_U_streamwise():
     times = os.listdir("postProcessing/sets")
     times.sort()
     latest = times[-1]
@@ -295,32 +291,29 @@ def plot_U_streamwise(show=True):
     plt.ylabel(r"$U/U_\infty$")
     plt.grid()
     plt.tight_layout()
-    if show:
-        plt.show()
 
-def plot_streamwise(save=False, savepath=""):
-    plt.figure(figsize=(12,5))
+def plot_streamwise(save=False, savepath="figures"):
+    plt.figure(figsize=(7.5, 4))
     plt.subplot(121)
-    plot_U_streamwise(show=False)
+    plot_U_streamwise()
     plt.subplot(122)
-    plot_mom_transport(show=False)
+    plot_mom_transport()
+    plt.tight_layout()
     if save:
         plt.savefig(os.path.join(savepath, "AD_streamwise.pdf"))
-    plt.show()
 
 def main():
-    p = "Google Drive/Research/Papers/JoT CFT near-wake/Figures"
-    if "linux" in sys.platform:
-        p = "/home/pete/" + p
-    elif "win" in sys.platform:
-        p = "C:/Users/Pete/" + p
+    if not os.path.isdir("figures"):
+        os.mkdir("figures")
     set_sns()
-#    resample_wake(x=1.0)
-#    plotwake(plotlist=["meancontquiv"], save=True, savepath=p)
-#    make_momentum_trans_bargraph()
-#    run_funky_batch()
-#    plot_mom_transport()
-    plot_streamwise(save=True, savepath=p)
+    #resample_wake(x=1.0)
+    plotwake(plotlist=["meancontquiv"], save=True)
+    #make_momentum_trans_bargraph()
+    if not os.path.isfile("processed/mom_transport.csv"):
+        run_funky_batch()
+    #plot_mom_transport()
+    plot_streamwise(save=True)
+    plt.show()
 
 if __name__ == "__main__":
     main()
