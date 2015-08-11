@@ -35,7 +35,7 @@ topoSet
 runApplication vorticity
 runApplication R
 
-./gensampledict
+./gensampledict.py
 runApplication sample -latestTime
 mv log.sample log.sample.contours
 runApplication sample -latestTime -dict system/sampleDict.streamwise
