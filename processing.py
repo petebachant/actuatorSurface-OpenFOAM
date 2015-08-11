@@ -14,8 +14,7 @@ import sys
 import foampy
 from subprocess import call
 import pandas
-
-plt.style.use("settings/style.mplstyle")
+from pxl.styleplot import set_sns
 
 def styleplot():
     plt.tight_layout()
@@ -54,7 +53,7 @@ def loadwake():
         data[z_H] = data_s
     return data
     
-def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf",
+def plotwake(plotlist=["meancontquiv"], save=False, savepath="", savetype=".pdf",
              print_analysis=True):
     data = loadwake()
     y_R = data[0][0]/R
@@ -143,8 +142,8 @@ def plotwake(plotlist=["meanu"], save=False, savepath="", savetype=".pdf",
         styleplot()
         if save:
             plt.savefig(savepath+'/xvorticity_AD'+savetype)
-    if "meancomboquiv" in plotlist or "all" in plotlist:
-        plt.figure(figsize=(9, 8))
+    if "meancontquiv" in plotlist or "all" in plotlist:
+        plt.figure(figsize=(7.5, 6.66))
         # Add contours of mean velocity
         cs = plt.contourf(y_R, z_H, u, 20, cmap=plt.cm.coolwarm)
         cb = plt.colorbar(cs, shrink=1, extend='both', 
@@ -315,9 +314,9 @@ def main():
         p = "/home/pete/" + p
     elif "win" in sys.platform:
         p = "C:/Users/Pete/" + p
-    plt.close("all")
+    set_sns()
 #    resample_wake(x=1.0)
-#    plotwake(plotlist=["meancomboquiv"], save=True, savepath=p)
+#    plotwake(plotlist=["meancontquiv"], save=True, savepath=p)
 #    make_momentum_trans_bargraph()
 #    run_funky_batch()
 #    plot_mom_transport()
