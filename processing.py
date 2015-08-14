@@ -176,7 +176,7 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
         ax.set_aspect(2.0)
         styleplot()
         if save:
-            plt.savefig(os.path.join(savepath, "meancontquiv_AD" + savetype))
+            plt.savefig(os.path.join(savepath, "meancontquiv" + savetype))
     if print_analysis:
         print("Spatial average of U =", u.mean())
         
@@ -300,7 +300,7 @@ def plot_streamwise(save=False, savepath="figures"):
     plot_mom_transport()
     plt.tight_layout()
     if save:
-        plt.savefig(os.path.join(savepath, "AD_streamwise.pdf"))
+        plt.savefig(os.path.join(savepath, "streamwise.pdf"))
 
 def main():
     if not os.path.isdir("figures"):
