@@ -1,11 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-Processing for OpenFOAM actuatorSurface simulation.
+"""Processing and plotting for OpenFOAM actuatorSurface simulation."""
 
-by Pete Bachant (petebachant@gmail.com)
-
-"""
 from __future__ import division, print_function
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,7 +13,7 @@ from pxl.styleplot import set_sns
 
 def styleplot():
     plt.tight_layout()
-    
+
 exp_path = "/media/pete/External 2/Research/Experiments/2014 Spring RVAT Re dep"
 
 # Some constants
@@ -35,11 +30,13 @@ ylabels = {"meanu" : r"$U/U_\infty$",
            "meanw" : r"$W/U_\infty$",
            "meanuv" : r"$\overline{u'v'}/U_\infty^2$"}
 
+
 def resample_wake(x=1.0):
     import gensampledict
     gensampledict.main(x)
     call(["sample", "-latestTime"])
-    
+
+
 def loadwake():
     """Loads wake data and returns y/R and statistics."""
     folder = os.listdir("postProcessing/sets")[0]
@@ -52,8 +49,9 @@ def loadwake():
         data_s = np.loadtxt(fpath, unpack=True)
         data[z_H] = data_s
     return data
-    
-def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures", 
+
+
+def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
              savetype=".pdf", print_analysis=True):
     data = loadwake()
     y_R = data[0][0]/R
@@ -80,7 +78,7 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
         cs = plt.contourf(y_R, z_H, u, 20, cmap=plt.cm.coolwarm)
         plt.xlabel(r'$y/R$')
         plt.ylabel(r'$z/H$')
-        cb = plt.colorbar(cs, shrink=1, extend='both', 
+        cb = plt.colorbar(cs, shrink=1, extend='both',
                           orientation='horizontal', pad=0.2)
         cb.set_label(r'$U/U_{\infty}$')
         turb_lines()
@@ -95,7 +93,7 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
         plt.xlabel(r'$y/R$')
         plt.ylabel(r'$z/H$')
         styleplot()
-        cb = plt.colorbar(cs, shrink=1, extend='both', 
+        cb = plt.colorbar(cs, shrink=1, extend='both',
                           orientation='horizontal', pad=0.3)
         cb.set_label(r'$V/U_{\infty}$')
         #turb_lines()
@@ -132,7 +130,7 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
         cs = plt.contourf(y_R, z_H, xvorticity, 10, cmap=plt.cm.coolwarm)
         plt.xlabel(r'$y/R$')
         plt.ylabel(r'$z/H$')
-        cb = plt.colorbar(cs, shrink=1, extend='both', 
+        cb = plt.colorbar(cs, shrink=1, extend='both',
                           orientation='horizontal', pad=0.26)
         cb.set_label(r"$\Omega_x$")
         turb_lines()
@@ -146,7 +144,7 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
         plt.figure(figsize=(7.5, 6.66))
         # Add contours of mean velocity
         cs = plt.contourf(y_R, z_H, u, 20, cmap=plt.cm.coolwarm)
-        cb = plt.colorbar(cs, shrink=1, extend='both', 
+        cb = plt.colorbar(cs, shrink=1, extend='both',
                           orientation='horizontal', pad=0.1)
                           #ticks=np.round(np.linspace(0.44, 1.12, 10), decimals=2))
         cb.set_label(r'$U/U_{\infty}$')
@@ -160,9 +158,9 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
         plt.xlim(-3.66, 3.66)
         plt.ylim(-1.22, 1.22)
         veckeyscale = 0.1
-        plt.quiverkey(Q, 0.8, 0.21, veckeyscale, 
+        plt.quiverkey(Q, 0.8, 0.21, veckeyscale,
                       r'${} U_\infty$'.format(veckeyscale),
-                      labelpos='E', coordinates='figure', 
+                      labelpos='E', coordinates='figure',
                       fontproperties={'size': 'small'})
         plt.hlines(0.5, -1, 1, linestyles='solid', colors='gray',
                    linewidth=3)
@@ -179,8 +177,9 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
             plt.savefig(os.path.join(savepath, "meancontquiv" + savetype))
     if print_analysis:
         print("Spatial average of U =", u.mean())
-        
-def plotexpwake(Re_D, quantity, z_H=0.0, save=False, savepath="", 
+
+
+def plotexpwake(Re_D, quantity, z_H=0.0, save=False, savepath="",
                 savetype=".pdf", newfig=True, marker="--ok",
                 fill="none", figsize=(10, 5)):
     """Plots the transverse wake profile of some quantity. These can be
@@ -204,9 +203,11 @@ def plotexpwake(Re_D, quantity, z_H=0.0, save=False, savepath="",
     plt.grid(True)
     styleplot()
 
+
 def set_funky_plane(x=1.0):
-    foampy.dictionaries.replace_value("system/funkyDoCalcDict", "basePoint", 
+    foampy.dictionaries.replace_value("system/funkyDoCalcDict", "basePoint",
                                       "({}".format(x))
+
 
 def read_funky_log():
     with open("log.funkyDoCalc") as f:
@@ -229,8 +230,9 @@ def read_funky_log():
     return {"y_adv" : y_adv, "z_adv" : z_adv, "turb_trans" : turb_trans,
             "visc_trans" : visc_trans, "pressure_trans" : pressure_trans}
 
+
 def run_funky_batch():
-    xlist = [-1.99, -1.5, -1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 
+    xlist = [-1.99, -1.5, -1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75,
              1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 7.99]
     df = pandas.DataFrame()
     for x in xlist:
@@ -245,6 +247,7 @@ def run_funky_batch():
     print(df)
     df.to_csv("processed/mom_transport.csv", index_label="x")
 
+
 def make_momentum_trans_bargraph(print_analysis=True):
     data = read_funky_log()
     y_adv = data["y_adv"]
@@ -254,7 +257,7 @@ def make_momentum_trans_bargraph(print_analysis=True):
     pressure_trans = data["pressure_trans"]
     plt.figure(figsize=(6,4))
     ax = plt.gca()
-    ax.bar(range(5), [y_adv, z_adv, turb_trans, visc_trans, pressure_trans], 
+    ax.bar(range(5), [y_adv, z_adv, turb_trans, visc_trans, pressure_trans],
            color="gray", edgecolor="black", hatch="//", width=0.5)
     ax.set_xticks(np.arange(5)+0.25)
     ax.set_xticklabels(["$y$-adv.", "$z$-adv.",
@@ -264,6 +267,7 @@ def make_momentum_trans_bargraph(print_analysis=True):
     if print_analysis:
         sum = y_adv + z_adv + turb_trans + visc_trans + pressure_trans
         print("Momentum recovery = {:.3f}% per turbine diameter".format(sum))
+
 
 def plot_mom_transport():
     df = pandas.read_csv("processed/mom_transport.csv")
@@ -279,11 +283,12 @@ def plot_mom_transport():
     plt.grid()
     plt.tight_layout()
 
+
 def plot_U_streamwise():
     times = os.listdir("postProcessing/sets")
     times.sort()
     latest = times[-1]
-    filepath = os.path.join("postProcessing", "sets", latest, 
+    filepath = os.path.join("postProcessing", "sets", latest,
                             "streamwise_U.xy")
     x, u, v, w = np.loadtxt(filepath, unpack=True)
     plt.plot(x, u, "k")
@@ -291,6 +296,7 @@ def plot_U_streamwise():
     plt.ylabel(r"$U/U_\infty$")
     plt.grid()
     plt.tight_layout()
+
 
 def plot_streamwise(save=False, savepath="figures"):
     plt.figure(figsize=(7.5, 4))
@@ -301,6 +307,7 @@ def plot_streamwise(save=False, savepath="figures"):
     plt.tight_layout()
     if save:
         plt.savefig(os.path.join(savepath, "streamwise.pdf"))
+
 
 def main():
     if not os.path.isdir("figures"):
@@ -314,6 +321,7 @@ def main():
     #plot_mom_transport()
     plot_streamwise(save=True)
     plt.show()
+
 
 if __name__ == "__main__":
     main()
