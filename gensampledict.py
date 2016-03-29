@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Generate sampleDict for multiple cross-stream profiles
+"""Generate `sampleDict` for multiple cross-stream profiles"""
 
-by Pete Bachant (petebachant@gmail.com)
-
-"""
 from __future__ import division, print_function
 import numpy as np
 import os
@@ -16,12 +11,12 @@ import foampy
 setformat = "raw"
 interpscheme = "cellPoint"
 fields = ["U"]
-ymax = 1.83
-ymin = -1.83
-ny = 41
-zmax = 1.22
-zmin = -1.22
-nz = 21
+ymax = 1.5
+ymin = -1.5
+ny = 51
+zmax = 1.125
+zmin = -1.125
+nz = 19
 
 header = r"""/*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
@@ -49,12 +44,12 @@ def main(x=None):
             x = 1.0
 
     z_array = np.linspace(zmin, zmax, nz)
-    
-    txt = header + "\n" 
+
+    txt = header + "\n"
     txt += "setFormat " + setformat + "; \n\n"
     txt += "interpolationScheme " + interpscheme + "; \n\n"
     txt += "sets \n ( \n"
-    
+
     for z in z_array:
         txt += "    " + "profile_" + str(z) + "\n"
         txt += "    { \n"
@@ -63,16 +58,16 @@ def main(x=None):
         txt += "        start       (" + str(x) + " " + str(ymin) + " " + str(z) + ");\n"
         txt += "        end         (" + str(x) + " " + str(ymax) + " " + str(z) + ");\n"
         txt += "        nPoints     " + str(ny) + ";\n    }\n\n"
-        
+
     txt += ");\n\n"
     txt += "fields \n(\n"
-    
+
     for field in fields:
         txt += "    " + field + "\n"
-        
+
     txt += "); \n\n"
     txt += "// *********************************************************************** // \n"
-    
+
     with open("system/sampleDict", "w") as f:
         f.write(txt)
 

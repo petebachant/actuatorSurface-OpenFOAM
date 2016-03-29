@@ -141,37 +141,40 @@ def plotwake(plotlist=["meancontquiv"], save=False, savepath="figures",
         if save:
             plt.savefig(savepath+'/xvorticity_AD'+savetype)
     if "meancontquiv" in plotlist or "all" in plotlist:
-        plt.figure(figsize=(7.5, 6.66))
+        plt.figure(figsize=(7.5, 4.8))
         # Add contours of mean velocity
-        cs = plt.contourf(y_R, z_H, u, 20, cmap=plt.cm.coolwarm)
-        cb = plt.colorbar(cs, shrink=1, extend='both',
-                          orientation='horizontal', pad=0.1)
-                          #ticks=np.round(np.linspace(0.44, 1.12, 10), decimals=2))
+        cs = plt.contourf(y_R, z_H, u, np.arange(0.15, 1.25, 0.05),
+                          cmap=plt.cm.coolwarm)
+        cb = plt.colorbar(cs, shrink=1, extend="both",
+                          orientation="vertical", pad=0.02)
         cb.set_label(r'$U/U_{\infty}$')
         plt.hold(True)
         # Make quiver plot of v and w velocities
-        Q = plt.quiver(y_R, z_H, v, w, angles='xy', width=0.0022, scale=1)
+        Q = plt.quiver(y_R, z_H, v, w, width=0.0022, edgecolor="none",
+                       scale=3.0)
         plt.xlabel(r'$y/R$')
         plt.ylabel(r'$z/H$')
         #plt.ylim(-0.2, 0.78)
         #plt.xlim(-3.2, 3.2)
         plt.xlim(-3.66, 3.66)
         plt.ylim(-1.22, 1.22)
-        veckeyscale = 0.1
-        plt.quiverkey(Q, 0.8, 0.21, veckeyscale,
-                      r'${} U_\infty$'.format(veckeyscale),
-                      labelpos='E', coordinates='figure',
-                      fontproperties={'size': 'small'})
+        plt.quiverkey(Q, 0.65, 0.055, 0.1, r"$0.1 U_\infty$",
+                      labelpos="E",
+                      coordinates="figure",
+                      fontproperties={"size": "small"})
         plt.hlines(0.5, -1, 1, linestyles='solid', colors='gray',
-                   linewidth=3)
+                   linewidth=2)
         plt.hlines(-0.5, -1, 1, linestyles='solid', colors='gray',
-                   linewidth=3)
+                   linewidth=2)
         plt.vlines(-1, -0.5, 0.5, linestyles='solid', colors='gray',
-                   linewidth=3)
+                   linewidth=2)
         plt.vlines(1, -0.5, 0.5, linestyles='solid', colors='gray',
-                   linewidth=3)
+                   linewidth=2)
         ax = plt.axes()
         ax.set_aspect(2.0)
+        plt.xlim((-3, 3))
+        plt.ylim((-1.125, 1.125))
+        plt.yticks(np.around(np.arange(-1.125, 1.126, 0.125), decimals=2))
         styleplot()
         if save:
             plt.savefig(os.path.join(savepath, "meancontquiv" + savetype))
@@ -262,7 +265,7 @@ def make_momentum_trans_bargraph(print_analysis=True):
     ax.set_xticks(np.arange(5)+0.25)
     ax.set_xticklabels(["$y$-adv.", "$z$-adv.",
                         "Turb.", "Visc.", "Press."])
-    plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UDU_\infty}$")
+    plt.ylabel(r"$\frac{U \, \mathrm{ transport}}{UU_\infty D^{-1}}$")
     plt.tight_layout()
     if print_analysis:
         sum = y_adv + z_adv + turb_trans + visc_trans + pressure_trans
@@ -271,7 +274,6 @@ def make_momentum_trans_bargraph(print_analysis=True):
 
 def plot_mom_transport():
     df = pandas.read_csv("processed/mom_transport.csv")
-    print(df)
     plt.plot(df.x, df.y_adv, "-o", label=r"$-V \partial U / \partial y$")
     plt.plot(df.x, df.z_adv, "-s", label=r"$-W \partial U / \partial z$")
     plt.plot(df.x, df.turb_trans, "-^", label=r"$\nu_t \nabla^2 U$")
